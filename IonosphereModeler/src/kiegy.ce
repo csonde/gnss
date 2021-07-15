@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <matrixOperation.h>
+
+
+int main()
+{
+    int i, j;
+
+    gsl_matrix* alakMatrix = gsl_matrix_alloc(5, 2);
+    gsl_matrix_set(alakMatrix, 0, 0, 1);
+    gsl_matrix_set(alakMatrix, 0, 1, 0);
+    gsl_matrix_set(alakMatrix, 1, 0, 1);
+    gsl_matrix_set(alakMatrix, 1, 1, 0);
+    gsl_matrix_set(alakMatrix, 2, 0, 1);
+    gsl_matrix_set(alakMatrix, 2, 1, -1);
+    gsl_matrix_set(alakMatrix, 3, 0, 0);
+    gsl_matrix_set(alakMatrix, 3, 1, 1);
+    gsl_matrix_set(alakMatrix, 4, 0, 0);
+    gsl_matrix_set(alakMatrix, 4, 1, 1);
+
+    for(i = 0; i < 5; i++)
+        {
+            for(j = 0; j < 2; j++)
+            {
+                printf("Alakm(%d,%d): %le\n", i, j, gsl_matrix_get(alakMatrix, i, j));
+            }
+        }
+
+    gsl_matrix* sulyMatrix = gsl_matrix_alloc(5, 5);
+    gsl_matrix_set_identity(sulyMatrix);
+
+    gsl_vector* meresVektor = gsl_vector_alloc(5);
+    gsl_vector* meresCorrVektor = gsl_vector_alloc(5);
+
+    gsl_vector* paramStartValues = gsl_vector_alloc(2);
+    gsl_vector* paramCorrValues = gsl_vector_alloc(2);
+
+    for(i = 0; i < 5; i++)
+    {
+        gsl_vector_set(meresCorrVektor, i, 0);
+    }
+
+    gsl_vector_set(meresVektor, 0, 0.995);
+    gsl_vector_set(meresVektor, 1, 1.498);
+    gsl_vector_set(meresVektor, 2, 0.998);
+    gsl_vector_set(meresVektor, 3, 5.002);
+    gsl_vector_set(meresVektor, 4, 2.000);
+
+    for(i = 0; i < 2; i++)
+    {
+        gsl_vector_set(paramCorrValues, i, 0);
+    }
+
+    gsl_vector_set(paramStartValues, 0, 201.002);
+    gsl_vector_set(paramStartValues, 1, 200.005);
+
+    gsl_vector* konst = gsl_vector_alloc(5);
+
+    gsl_vector_set(konst, 0, 200.01);
+    gsl_vector_set(konst, 1, 199.5);
+    gsl_vector_set(konst, 2, 0);
+    gsl_vector_set(konst, 3, 195.008);
+    gsl_vector_set(konst, 4, 198);
+
+    kiegyenlites(alakMatrix, sulyMatrix,
+                 paramStartValues, paramCorrValues,
+                 meresVektor, meresCorrVektor,
+                 konst, 10);
+
+    for(i = 0; i < 2; i++)
+    {
+        printf("Parameter %d: %le\n", i, gsl_vector_get(paramStartValues, i));
+    }
+    return 0;
+}
