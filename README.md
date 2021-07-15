@@ -1,4 +1,4 @@
-### This repo contains source the papers below:
+### This repo contains source code for the papers below:
 http://tdk.bme.hu/EMK/foldmesterinf/Az-ionoszfera-GPS-jelekben-okozott-keslelteto
 
 http://tdk.bme.hu/EMK/geodezia/GPS-meresek-ionoszferikus-hatasanak
